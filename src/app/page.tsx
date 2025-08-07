@@ -419,7 +419,7 @@ function SidePanel({ title, children }: { title: string; children: React.ReactNo
 
 export default function SuperTetris() {
   const settings = useSettings();
-  const { das, arr, lockDelay, previewCount, ghost, startLevel, setDas, setArr, setLockDelay, setPreviewCount, setGhost, setStartLevel } = settings;
+  const { das, arr, lockDelay, previewCount, ghost, startLevel } = settings; const { setDas, setArr, setLockDelay, setPreviewCount, setGhost, setStartLevel } = settings;
   const { board, activeId, pos, rot, queue, hold, canHold, score, lines, level, combo, b2b, pause, gameOver, reset } = useTetris(settings);
   const { ref, ctx } = useCanvas();
 
@@ -431,14 +431,14 @@ export default function SuperTetris() {
       canvas.width = w; canvas.height = Math.floor(w * (20 / 10));
       if (!ctx.current) return;
       drawBoard(ctx.current, board);
-      drawActiveAndGhost(ctx.current, activeId as any, pos, rot, board, ghost);
+      drawActiveAndGhost(ctx.current, activeId, pos, rot, board, ghost);
     };
     resize();
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
-  }, [board, activeId, pos, rot, ghost]);
+  }, [board, activeId, pos, rot, ghost, ref, ctx]);
 
-  useEffect(() => { if (!ctx.current) return; drawBoard(ctx.current, board); drawActiveAndGhost(ctx.current, activeId as any, pos, rot, board, ghost); }, [board, activeId, pos, rot, ctx, ghost]);
+  useEffect(() => { if (!ctx.current) return; drawBoard(ctx.current, board); drawActiveAndGhost(ctx.current, activeId, pos, rot, board, ghost); }, [board, activeId, pos, rot, ctx, ghost]);
 
   const renderMini = (id: PieceId | 0, cell = 16) => {
     if (!id) return <div className="h-16"/>;
